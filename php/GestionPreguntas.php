@@ -4,6 +4,9 @@ session_start();
 if(!isset($_SESSION["email"])){
     header("location:Seguridad.php");
 }
+if(strpos($_SESSION["email"], "ehu.eus")==false){
+    header("location: Seguridad.php");
+}
 ?>
 <html>
 	<head>

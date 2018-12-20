@@ -4,6 +4,9 @@ session_start();
 if(!isset($_SESSION['email'])){
     header("location: Seguridad.php");
 }
+if(strpos($_SESSION["email"], "ehu.es")==false){
+    header("location: Seguridad.php");
+}
 include "ParametrosDB.php";
     $link = new mysqli($server, $user, $pass, $basededatos);
     if($link->connect_error){

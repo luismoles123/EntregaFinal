@@ -7,7 +7,6 @@
 	</head>
 		<body>
 			<div id="divForm" align="center">
-			  
 				<h2>Rellene el formulario de registro</h2>
 					<form id="fregistrar" name="fregistrar" method="post" action="Registrar.php">
 						<div class="datosRegistro">
@@ -40,13 +39,13 @@
 		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"> </script>
         <script>
-				/*
+				
                function validarCorreo(){
                   var correo=$("#corr").val();
                   var correoER= new RegExp("[a-z]*[0-9]{3}@ikasle.ehu.eus");
                   var test=correoER.test(correo);
                   return test;
-                }*/
+                }
 				
 				function validarNombre(){
                   var nom = $("#nom").val();
@@ -62,12 +61,12 @@
 					var nom = $("#nom").val();
                     var contr = $("#pass").val();
                     var repContr = $("#pass1").val();
-                    /*
+                    
                     if(!validarCorreo()){
                          alert("El correo tiene que ser de la universidad")
                        return false;
                     }
-					*/
+					
 					if(!validarNombre()){
                          alert("El formato del nombre es incorrecto. Ejemplo: Luis Moles; Luis Moles Rodriguez") //Iniciales en mayúsculas obligatorio
                        return false;
@@ -97,7 +96,7 @@
 			if($result=="NO"){
 				echo("El usuario no está matriculado en sistemas web");
 			}else if($result=="SI"){
-				$soapclient= new nusoap_client("https://sw-lab0.000webhostapp.com/Lab5/php/ComprobarContrasena.php?wsdl",true);
+				$soapclient= new nusoap_client("http://localhost/Labs-SW/SW-Lab5/php/ComprobarContrasena.php?wsdl",true);
 				if(isset($_POST["pass"])){
 					$resultado=$soapclient->call('comprobar1', array('x'=>"1010", 'y' => $_POST["pass"]));
 					echo  $resultado;
@@ -121,17 +120,15 @@
 								   if(mysqli_num_rows ($result)==1){
 										die("El usuario ya está registrado");
 									}
-									
 								//Insertamos los valores en la base de datos.
-								//$hash = sha1($password);
-								//unset($password);
-								$sql = "INSERT INTO usuarios (nombre,email,pass,estado) VALUES ('$nombre','$email','$password','activo')";
+								$hash = password_hash($password,PASSWORD_BCRYPT);
+								$sql = "INSERT INTO usuarios (nombre,email,pass,estado) VALUES ('$nombre','$email','$hash','activo')";
 								  if(!mysqli_query($link, $sql)){
 										die('Ha ocurrido algo inesperado');
 									}
 									
 									echo "<p> El usuario es VIP, registro correcto!</p>";
-									echo "<a style='text-decoration: underline; padding: 3px 30px 3px 30px; font-weight: 800;font-size: 20px;color: white ;background-color: #3393FF;border-radius: 20px;border: 3px solid #0016a6' href='../Html/Login.html'>Ir a Login</a>";
+									echo "<a style='text-decoration: underline; padding: 3px 30px 3px 30px; font-weight: 800;font-size: 20px;color: white ;background-color: #3393FF;border-radius: 20px;border: 3px solid #0016a6' href='../Html/layoutSinLogin.html'>Ir a Inicio</a>";
 									mysqli_close($link);						
 							}
 						}
